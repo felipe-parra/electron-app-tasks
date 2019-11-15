@@ -63,7 +63,7 @@ const templateMenu = [
 			{
 				label: 'Eliminar tareas',
 				click() {
-					console.log('Eliminando...');
+					mainWindow.webContents.send('task:remove-all');
 				}
 			},
 			{
