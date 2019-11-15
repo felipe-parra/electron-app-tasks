@@ -40,16 +40,22 @@
 
   </div>
   <script>
-    const path = require('path');
-    console.log(path)
+    const { ipcRenderer } = require('electron')
+    console.log(ipcRenderer)
     const form = document.querySelector('form')
     form.addEventListener('submit', e => {
+      e.preventDefault()
       const nameInput = document.querySelector('#name').value
       const timeInput = document.querySelector('#time').value
-      const descInput = document.querySelector('#description').value
+      const descInput = document.querySelector('#description').value.trim()
       console.log({ nameInput, timeInput, descInput })
-      e.preventDefault()
-
+      const newTask = {
+        name: nameInput,
+        time: timeInput,
+        description: descInput
+      }
+      ipcRenderer.send('task:new', newTask)
+      console.log(newTask)
 
     })
   </script>

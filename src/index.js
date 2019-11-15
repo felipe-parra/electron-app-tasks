@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const url = require('url');
 const path = require('path');
 
@@ -12,7 +12,11 @@ app.on('ready', () => {
 		minWidth: 800,
 		minHeight: 400,
 		backgroundColor: '#ececec',
-		show: false
+		show: false,
+		webPreferences: {
+			nodeIntegration: true
+		},
+		nodeIntegrationInWorker: true
 	});
 	mainWindow.loadURL(
 		url.format({
@@ -31,6 +35,11 @@ app.on('ready', () => {
 	mainWindow.on('closed', () => {
 		app.quit();
 	});
+});
+
+ipcMain.on('task:new', (e, newTask) => {
+	mainWindow.webContents.send('task:new', newTask);
+	newTaskWindow.close();
 });
 
 const templateMenu = [
@@ -75,7 +84,11 @@ const createNewTaskWindow = () => {
 	newTaskWindow = new BrowserWindow({
 		width: 400,
 		height: 330,
-		title: 'Agregar Nueva Tarea'
+		title: 'Agregar Nueva Tarea',
+		webPreferences: {
+			nodeIntegration: true
+		},
+		nodeIntegrationInWorker: true
 	});
 	newTaskWindow.setMenuBarVisibility(false);
 	newTaskWindow.loadURL(
