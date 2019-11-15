@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Form</title>
+  <link rel="stylesheet" href="bootstrap.min.css">
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <table class="table fixed-top">
+      <thead class="">
+        <tr>
+          <th scope="col-md-">Articulo</th>
+          <th scope="col">Producto</th>
+          <th scope="col">Unidad</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">P Unitario</th>
+          <th scope="col">Importe</th>
+        </tr>
+      </thead>
+      <tbody data-spy="scroll overflow-auto">
+
+
+      </tbody>
+    </table>
+  </div>
+  <form class="container-fluid col-md-12 p-2 fixed-bottom">
+    <div class="row">
+      <div class="col-md-2">
+        <input autofocus type="text" class="form-control" placeholder="Codigo de Barras" id="barcode" name="barcode">
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Nombre producto" id="name" name="name">
+      </div>
+      <div class="col-md-1">
+        <input class="form-control" type="text" name="unidad" id="unidad" placeholder="unidad">
+      </div>
+      <div class="col-md-1">
+        <input class="form-control" type="number" name="cantidad" id="cantidad" placeholder="cantidad">
+      </div>
+      <div class="col-md-2">
+        <input class="form-control" type="number" name="pUnitario" id="pUnitario" placeholder="Precio">
+      </div>
+      <div class="col-md-3">
+        <input class="form-control" type="number" name="iUnitario" id="iUnitario" placeholder="Importe">
+      </div>
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+  </form>
+
+  <script>
+    const templateRow = ({ barcode, name, unidad, cantidad, pUnitario, iUnitario }) => {
+      if (barcode !== '') {
+
+        return (
+
+          `<tr>
+            <th scope="row">${barcode}</th>
+            <td>${name}</td>
+            <td>${unidad}</td>
+            <td>${cantidad}</td>
+            <td>${pUnitario}</td>
+            <td>${iUnitario}</td>
+            </tr>
+            `
+        )
+      } else {
+        return ''
+      }
+    }
+    const getFocus = () => {
+      document.getElementById("barcode").focus();
+    }
+    const formSub = document.querySelector('form')
+    const rowContainer = document.querySelector('tbody')
+    formSub.addEventListener('submit', e => {
+      e.preventDefault()
+      const form = new FormData(document.forms[0])
+      data = {
+        barcode: form.get('barcode'),
+        name: form.get('name'),
+        unidad: form.get('unidad'),
+        cantidad: form.get('cantidad'),
+        pUnitario: form.get('pUnitario'),
+        iUnitario: form.get('iUnitario')
+      }
+      rowContainer.innerHTML += templateRow(data)
+      console.log(data)
+      formSub.reset()
+      getFocus()
+    })
+  </script>
+</body>
+
+</html>
