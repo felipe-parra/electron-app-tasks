@@ -1,3 +1,58 @@
-<div class="ventana">
-  <h1>Ventana</h1>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ventana</title>
+  <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <form class="p-4">
+      <div class="form-group">
+        <label>Nombre de Tarea</label>
+        <input class="form-control" type="text" name="name" id="name" placeholder="Nombre de la Tarea" autofocus>
+      </div>
+      <div class="form-group">
+        <label>Hora</label>
+        <select name="time" id="time" class="custom-select">
+          <option selected disabled>Seleccionar</option>
+          <option value="mañana">Mañana</option>
+          <option value="mediodia">Medio Dia</option>
+          <option value="tarde">Tarde</option>
+          <option value="noche">Noche</option>
+
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Descripcion de Actividad</label>
+        <textarea class="form-control" name="description" id="description" cols="2"
+          placeholder="Descripcion de la actividad" value="\t\t">
+        </textarea>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary btn-block">
+      </div>
+    </form>
+
+  </div>
+  <script>
+    const path = require('path');
+    console.log(path)
+    const form = document.querySelector('form')
+    form.addEventListener('submit', e => {
+      const nameInput = document.querySelector('#name').value
+      const timeInput = document.querySelector('#time').value
+      const descInput = document.querySelector('#description').value
+      console.log({ nameInput, timeInput, descInput })
+      e.preventDefault()
+
+
+    })
+  </script>
+</body>
+
+</html>

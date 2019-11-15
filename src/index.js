@@ -5,7 +5,15 @@ const path = require('path');
 let mainWindow, newTaskWindow;
 
 app.on('ready', () => {
-	mainWindow = new BrowserWindow({});
+	mainWindow = new BrowserWindow({
+		titleBarStyle: 'hidden', //Le damos algunas propiedad de nuestra ventana, por ejemplo ocultamos el TitleBar.
+		width: 800,
+		height: 400,
+		minWidth: 800,
+		minHeight: 400,
+		backgroundColor: '#ececec',
+		show: false
+	});
 	mainWindow.loadURL(
 		url.format({
 			pathname: path.join(__dirname, 'views/index.html'),
@@ -13,6 +21,9 @@ app.on('ready', () => {
 			slashes: true
 		})
 	);
+	mainWindow.once('ready-to-show', () => {
+		mainWindow.show();
+	});
 	const mainMenu = Menu.buildFromTemplate(templateMenu);
 
 	Menu.setApplicationMenu(mainMenu);
@@ -41,12 +52,20 @@ const templateMenu = [
 				}
 			},
 			{
+				label: 'Eliminar tareas',
+				click() {
+					console.log('Eliminando...');
+				}
+			},
+			{
 				type: 'separator'
 			},
 			{
 				label: 'Cerrar Aplicacion',
 				accelerator: 'Ctrl+Q',
-				click() {}
+				click() {
+					app.quit();
+				}
 			}
 		]
 	}
@@ -67,3 +86,26 @@ const createNewTaskWindow = () => {
 		})
 	);
 };
+
+if (process.env.NODE_ENV !== 'production') {
+	templateMenu.push({
+		label: 'DevTools',
+		submenu: [
+			{
+				label: 'Show/Hide Dev Tools',
+				click(item, focusedWindow) {
+					focusedWindow.toggleDevTools();
+				}
+			},
+			{ role: 'reload' },
+			{ role: 'forcereload' },
+			{ role: 'toggledevtools' },
+			{ type: 'separator' },
+			{ role: 'resetzoom' },
+			{ role: 'zoomin' },
+			{ role: 'zoomout' },
+			{ type: 'separator' },
+			{ role: 'togglefullscreen' }
+		]
+	});
+}
